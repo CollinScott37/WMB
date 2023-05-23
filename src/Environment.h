@@ -7,8 +7,9 @@ namespace WMB
 	{
 	public:
 		virtual void StartUp() = 0;
-
-	private:
+		const string ppath = "assets/";
+	protected:
+		string path;
 		Pixel color; //the pixel to look for
 		std::vector<std::vector<std::vector<Pixel>>> bmps;
 		int TotalPixelAmount; //total num of pixels in order to add the image 

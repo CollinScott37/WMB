@@ -9,5 +9,7 @@ namespace WMB
 	{
 	public:
 		void StartUp();
+	private:
+		string path = ppath + "Mountains/";
 	};
 }
