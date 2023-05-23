@@ -1,6 +1,8 @@
 #include <iostream>
 
+#include "../src/Engine.h"
 
+using namespace WMB;
 
 void PrintArray(int** arr, int w, int h)
 {
@@ -41,6 +43,8 @@ int main(int argc, const char* argv[]) {
     }
 
     ModifyArray(arr, w, h);
+
+    Engine e;
 
     return 0;
 }

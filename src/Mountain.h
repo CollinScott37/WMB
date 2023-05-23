@@ -1,7 +1,13 @@
 #pragma once
+#include "Types.h"
 #include "Environment.h"
 
-class Mountain : public Environment
-{
 
-};
+namespace WMB
+{
+	class Mountain : public Environment
+	{
+	public:
+		void StartUp();
+	};
+}
