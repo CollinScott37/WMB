@@ -2,6 +2,7 @@
 
 #include <string>
 #include "../glm/glm.hpp"
+#include "../bitmap/bitmap.h"
 
 namespace WMB
 {
