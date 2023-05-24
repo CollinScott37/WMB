@@ -10,10 +10,13 @@ namespace WMB
 		void StartUp();
 	private:
 		const Pixel canvasPixel = Pixel(198, 131, 39);
-		const int width = 500;
-		const int height = 500;
+		int width = 500;
+		int height = 500;
 
-		std::vector<std::vector<Pixel>> canvas = std::vector(height, std::vector<Pixel>(width, canvasPixel));
+		Bitmap userBitmap;
+		Bmp userbmp;
+
+		std::vector<std::vector<Pixel>> canvas;
 		Mountain m;
 
 	};

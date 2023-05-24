@@ -42,7 +42,7 @@ int main(int argc, const char* argv[]) {
         }
     }
 
-    ModifyArray(arr, w, h);
+    //ModifyArray(arr, w, h);
 
     Engine e;
 

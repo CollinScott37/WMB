@@ -10,6 +10,7 @@ target("WMB")
     after_build(function (target)
         cprint("Copying assets")
         os.cp("$(projectdir)/assets", path.directory(target:targetfile()))
+        os.cp("$(projectdir)/test", path.directory(target:targetfile()))
     end)
     --add_packages("glm") 
     -- Declare our engine's header path.
