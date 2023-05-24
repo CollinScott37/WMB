@@ -11,7 +11,7 @@ namespace WMB
 	protected:
 		string path;
 		Pixel color; //the pixel to look for
-		std::vector<std::vector<std::vector<Pixel>>> bmps;
+		std::vector<Bmp> bmps;
 		int TotalPixelAmount; //total num of pixels in order to add the image 
 	};
 }

@@ -8,6 +8,7 @@
 namespace WMB
 {
 	typedef std::string string;
+	typedef std::vector <std::vector<Pixel>> Bmp;
 
 	class Engine;
 	class Environment;
