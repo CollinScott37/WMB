@@ -28,6 +28,7 @@ namespace WMB
 				}
 			}
 		}
+		virtual void Draw(Bmp& userBmp, Bmp& canvas) = 0;
 	protected:
 		string path;
 		Pixel color; //the pixel to look for
