@@ -14,7 +14,7 @@ namespace WMB
 		int height = 500;
 
 		Bitmap userBitmap;
-		Bmp userbmp;
+		Bmp userBmp;
 
 		std::vector<std::vector<Pixel>> canvas;
 		Mountain m;
