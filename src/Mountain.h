@@ -11,5 +11,10 @@ namespace WMB
 		void StartUp();
 	private:
 		string path = ppath + "Mountains/";
+		Mountain()
+		{
+			path = ppath + "Mountains/";
+			color = Pixel(194, 33, 229);
+		}
 	};
 }
