@@ -9,8 +9,7 @@ namespace WMB
 	{
 	public:
 		void StartUp();
-	private:
-		string path = ppath + "Mountains/";
+		void Draw(Bmp& userBmp, Bmp& canvas);
 		Mountain()
 		{
 			path = ppath + "Mountains/";
