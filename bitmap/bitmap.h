@@ -10,6 +10,7 @@
  * components that are mixed to form a color. Each of these values can range
  * from 0 to 255
 **/
+
 class Pixel
 {
 public:
@@ -21,7 +22,21 @@ public:
 
 	// Initializes a color Pixel with the specified RGB values.
 	Pixel(int r, int g, int b) : red(r), green(g), blue(b) { }
+
+    //Added by Collin Scott
+    bool operator == (const Pixel& p)
+    {
+        if (p.red == red && p.green == green && p.blue == blue)
+        {
+            return true;
+        }
+        return false;
+    }
+
 };
+
+
+
 
 // ----------------------------------------------------------------------------
 //To abbreviate a pixel matrix built as a vector of vectors
