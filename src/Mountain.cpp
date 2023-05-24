@@ -1,6 +1,11 @@
 #include "Mountain.h"
 using namespace WMB;
 
+std::ostream& operator<<(std::ostream& out, Pixel const& data)
+{
+	return out << "(" << data.red << ", " << data.green << ", " << data.blue << ")";
+
+}
 
 void Mountain::StartUp()
 {
