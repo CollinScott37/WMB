@@ -33,6 +33,11 @@ public:
         return false;
     }
 
+    Pixel operator ~ () 
+    {
+        return Pixel(-this->red, -this->green, -this->blue);
+    }
+
 };
 
 
