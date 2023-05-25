@@ -159,9 +159,7 @@ void Mountain::DrawImage(Bmp& canvas, Location location)
 				
 				//Location in the canvas
 				Location canvasPos = BmpToCanvas(i, j, height, width, location);
-				
-				//std::cout << "canvas Location: " << canvasPos;
-				
+								
 				bool isValid = IsValidPos(canvasPos, canvas);
 				if (isValid)
 				{
