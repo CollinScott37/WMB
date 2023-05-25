@@ -11,16 +11,18 @@ namespace WMB
 		const string ppath = "assets/";
 		void LoadBmps(string path, Bitmap& image, std::vector<Bmp>& bmps)
 		{
-			//Load all mountains
 			for (const auto& entry : fs::directory_iterator(path))
 			{
 				std::cout << entry.path() << " ";
 				image.open(entry.path().string());
 				if (image.isImage())
 				{
+					Bmp bmp = image.toPixelMatrix();
+					int width = bmp[0].size();
+					int height = bmp.size();
 					std::cout << "- is valid - ";
-					bmps.push_back(image.toPixelMatrix());
-					std::cout << "size: " << bmps[0].size() << "," << bmps[0][0].size() << "\n";
+					bmps.push_back(bmp);
+					std::cout << "size: " << width << "," << height << "\n";
 				}
 				else
 				{
@@ -28,12 +30,12 @@ namespace WMB
 				}
 			}
 		}
-		virtual void Draw(Bmp& userBmp, Bmp& canvas) = 0;
+		virtual void Draw(Bmp& userBmp, Bmp& canvas, int width, int height) = 0;
 	protected:
 		string path;
 		Pixel color; //the pixel to look for
 		std::vector<Bmp> bmps;
-		int TotalPixelAmount; //total num of pixels in order to add the image 
+		int size; //the size of the filter (size x size)
 	};
 }
 
