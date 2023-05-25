@@ -5,6 +5,9 @@ std::ostream& operator<<(std::ostream& out, Pixel const& data)
 {
 	return out << "(" << data.red << ", " << data.green << ", " << data.blue << ")";
 
+std::ostream& operator<<(std::ostream& out, Location const& data)
+{
+	return out << "(" << data.i << ", " << data.j << ")";
 }
 
 void Mountain::StartUp()
