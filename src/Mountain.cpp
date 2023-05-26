@@ -127,7 +127,7 @@ bool Mountain::ValidSpot(Bmp& userBmp, Bmp canvas, int ci, int cj, std::vector<L
 		}
 	}
 
-	//part of V2 adn V3
+	//part of V2 and V3
 	if (count >= size)
 	{
 		return true;
