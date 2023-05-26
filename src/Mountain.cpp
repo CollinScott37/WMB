@@ -60,94 +60,9 @@ void Mountain::Draw(Bmp& userBmp, Bmp& canvas, int width, int height)
 
 
 
-/**
-* Determines if this is a valid spot to put the Environment bmp on the canvas
-* if true, returns the locations of point on userBmp
-* if false, nothing (ish)
-*/
-bool Mountain::ValidSpot(Bmp& userBmp, Bmp canvas, int ci, int cj, std::vector<Location>& locations)
-{
-
-	int count = 0; //track number of matching colors
-	int s = size / 2;
-		
-	//start at the top row of the filter
-	for (int i = ci - s; i < ci + s; i += 1)
-	{
-		if (i < 0 || i >= userBmp.size()) { continue; } //invalid index
-		
-		//start at the left most column of the filter 
-		for (int j = cj - s; j < cj + s; j += 1)
-		{
-			if (j < 0 || j >= userBmp[0].size()) { continue; } //invalid index
 
 
-			/* //V1
-			* Only counts the matching color up to size limit
-			//matches the designated color
-			if (userBmp[i][j] == color)
-			{
-				count += 1;//inc
-				locations.push_back(Location(i, j)); //save location
-			}
 
-			//we don't want to any more pixels beyound the size
-			if (count == size)
-			{
-				return true;
-			}
-			*/
-
-			/*
-			* V2
-			* Counts every pixel that matches color
-			* goes to end of filter
-			*/
-			/*if (userBmp[i][j] == color)
-			{
-				count += 1;
-				locations.push_back(Location(i, j));
-			}*/
-
-			/*
-			* V3
-			* Counts every pixel that matches color
-			* subtracts every pixel that is opposite color
-			* goes to end of filter
-			*/
-			if (userBmp[i][j] == color)
-			{
-				count += 1;
-				locations.push_back(Location(i, j));
-			}
-			else if (userBmp[i][j] == ~color)
-			{
-				count -= 1;
-			}
-		}
-	}
-
-	//part of V2 and V3
-	if (count >= size)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-/**
-* flips all colors the locations used for validation in userBmp
-*/
-void Mountain::MarkUsed(Bmp& userBmp, std::vector<Location> locations)
-{
-	Location l;
-	for (int i = 0; i < locations.size(); i += 1)
-	{
-		l = locations[i];
-		userBmp[l.i][l.j] = ~userBmp[l.i][l.j];
-	}
-}
 
 /**
 * Draw the Mountain at the location on the canvas
