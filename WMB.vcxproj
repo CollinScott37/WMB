@@ -132,12 +132,14 @@
     <ClCompile Include="demo\helloworld.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\Mountain.cpp" />
+    <ClCompile Include="src\Water.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\Environment.h" />
     <ClInclude Include="src\Mountain.h" />
     <ClInclude Include="src\Types.h" />
+    <ClInclude Include="src\Water.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
