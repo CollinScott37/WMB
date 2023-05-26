@@ -81,6 +81,9 @@ bool Mountain::ValidSpot(Bmp& userBmp, Bmp canvas, int ci, int cj, std::vector<L
 		{
 			if (j < 0 || j >= userBmp[0].size()) { continue; } //invalid index
 
+
+			/* //V1
+			* Only counts the matching color up to size limit
 			//matches the designated color
 			if (userBmp[i][j] == color)
 			{
@@ -93,8 +96,43 @@ bool Mountain::ValidSpot(Bmp& userBmp, Bmp canvas, int ci, int cj, std::vector<L
 			{
 				return true;
 			}
+			*/
+
+			/*
+			* V2
+			* Counts every pixel that matches color
+			* goes to end of filter
+			*/
+			/*if (userBmp[i][j] == color)
+			{
+				count += 1;
+				locations.push_back(Location(i, j));
+			}*/
+
+			/*
+			* V3
+			* Counts every pixel that matches color
+			* subtracts every pixel that is opposite color
+			* goes to end of filter
+			*/
+			if (userBmp[i][j] == color)
+			{
+				count += 1;
+				locations.push_back(Location(i, j));
+			}
+			else if (userBmp[i][j] == ~color)
+			{
+				count -= 1;
+			}
 		}
 	}
+
+	//part of V2 adn V3
+	if (count >= size)
+	{
+		return true;
+	}
+
 	return false;
 }
 
