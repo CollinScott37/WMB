@@ -80,7 +80,7 @@ void Mountain::DrawImage(Bmp& canvas, Location location)
 	int width = bmp[0].size();
 	
 	//Convert from bmp space to canvas space
-	auto BmpToCanvas = [](int i, int j, int height, int width, Location location)
+	auto BmpToCanvas = [&](int i, int j, Location location)
 	{
 		int x = location.i + (i - height / 2);
 		int y = location.j + (j - width / 2);
@@ -89,7 +89,7 @@ void Mountain::DrawImage(Bmp& canvas, Location location)
 	};
 
 	//Check if valid canvas space pos
-	auto IsValidPos = [](Location location, Bmp canvas)
+	auto IsValidPos = [&](Location location)
 	{
 		if (location.i < 0 || location.i >= canvas.size()) { return false; }
 		if (location.j < 0 || location.j >= canvas[0].size()) { return false; }
@@ -111,9 +111,9 @@ void Mountain::DrawImage(Bmp& canvas, Location location)
 			{
 				
 				//Location in the canvas
-				Location canvasPos = BmpToCanvas(i, j, height, width, location);
+				Location canvasPos = BmpToCanvas(i, j, location);
 								
-				bool isValid = IsValidPos(canvasPos, canvas);
+				bool isValid = IsValidPos(canvasPos);
 				if (isValid)
 				{
 					canvas[canvasPos.i][canvasPos.j] = BLACK;
