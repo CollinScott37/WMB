@@ -33,6 +33,17 @@ public:
         return false;
     }
 
+    //Added by Collin Scott
+    bool operator != (const Pixel& p)
+    {
+        if (!(p.red == red && p.green == green && p.blue == blue))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    //Added by Collin Scott
     Pixel operator ~ () 
     {
         return Pixel(-this->red, -this->green, -this->blue);
