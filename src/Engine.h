@@ -1,6 +1,7 @@
 #pragma once
 #include "Types.h"
 #include "Mountain.h"
+#include "Water.h"
 namespace WMB
 {
 	class Engine
@@ -18,6 +19,7 @@ namespace WMB
 
 		std::vector<std::vector<Pixel>> canvas;
 		Mountain m;
+		Water w;
 
 	};
 }

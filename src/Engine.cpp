@@ -8,9 +8,10 @@ using namespace WMB;
 void Engine::StartUp()
 {
 	m.StartUp();
+	w.StartUp();
 	
 	//Load users Image
-	userBitmap.open("test/sample2.bmp");
+	userBitmap.open("test/sample3.bmp");
 	userBmp = userBitmap.toPixelMatrix();
 
 	//set canvas values
@@ -23,6 +24,7 @@ void Engine::StartUp()
 	std::cout << "size: " << width << ", " << height << "\n";
 	
 	m.Draw(userBmp, canvas, height, width);
+	w.Draw(userBmp, canvas, width, height);
 
 	Bitmap i;
 	i.fromPixelMatrix(canvas);

@@ -25,5 +25,6 @@ namespace WMB
 	class Engine;
 	class Environment;
 	class Mountain;
+	class Water;
 }
 
