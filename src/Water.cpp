@@ -105,6 +105,9 @@ void Water::DrawImage(Bmp& userBmp, Bmp& canvas, Location location)
 				Location canvasPos = BmpToCanvas(i, j, location);
 
 				bool isValid = IsValidPos(canvasPos);
+				
+				//valid position
+				//&& it is drawing on a water tile
 				if (isValid && (userBmp[canvasPos.i][canvasPos.j] == color || userBmp[canvasPos.i][canvasPos.j] == ~color))
 				{
 					canvas[canvasPos.i][canvasPos.j] = BLACK;
