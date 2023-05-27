@@ -1,6 +1,5 @@
 #include "Water.h"
-
-
+#include <random>>
 using namespace WMB;
 
 
@@ -12,8 +11,9 @@ void Water::StartUp()
 	Bitmap image;
 	Bitmap b;
 
-	LoadBmps(path, image, bmps);
+	LoadTiles(path, image, tiles);
 	//std::cout << "color: " << color << "\n";
+
 
 	std::cout << "(Water) Start Complete\n";
 }
@@ -26,8 +26,6 @@ void Water::Draw(Bmp& userBmp, Bmp& canvas, int width, int height)
 
 	DrawWaterBorder(userBmp, canvas, width, height);
 
-	
-
 	//Loop throught the userBmp
 	for (int i = 0; i < height; i += 1)
 	{
@@ -39,13 +37,12 @@ void Water::Draw(Bmp& userBmp, Bmp& canvas, int width, int height)
 			bool isValid = ValidSpot(userBmp, canvas, i, j, locations);
 			if (isValid)
 			{
-				//make sure no other Mountain use these pixels
+				//make sure nothing else use these pixels
 				MarkUsed(userBmp, locations);
 
-				//draw the mountain
-				DrawImage(userBmp, canvas, Location(i, j));
+				//draw the tile
+				DrawTile(userBmp, canvas, Location(i, j));
 
-				//canvas[i][j] = Pixel(255, 0, 0); //Debug
 			}
 
 		}
@@ -59,12 +56,19 @@ void Water::Draw(Bmp& userBmp, Bmp& canvas, int width, int height)
 * Draw the bmp at the location on the canvas
 * location should be the center of the bmp
 */
-void Water::DrawImage(Bmp& userBmp, Bmp& canvas, Location location)
+void Water::DrawTile(Bmp& userBmp, Bmp& canvas, Location location)
 {
 	//Get the bmp to draw
-	int index = rand() % bmps.size();
+	int index = rand() % tiles.size();
 
-	Bmp bmp = bmps[index];
+	//Calc Offset
+	int xOffset = (rand() % (tiles[index].offset.x * 2 + 1)) - tiles[index].offset.x;
+	int yOffset = (rand() % (tiles[index].offset.y * 2 + 1)) - tiles[index].offset.y;
+	location.i += yOffset;
+	location.j += xOffset;
+
+	//Get the tile's bmp
+	Bmp bmp = tiles[index].bmp;
 
 	//Get The Bounds
 	int height = bmp.size();
@@ -98,7 +102,7 @@ void Water::DrawImage(Bmp& userBmp, Bmp& canvas, Location location)
 		{
 
 			//Draw only the valid color 
-			if (bmps[index][i][j] == BLACK)
+			if (tiles[index].bmp[i][j] == BLACK)
 			{
 
 				//Location in the canvas
