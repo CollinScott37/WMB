@@ -17,8 +17,10 @@ void Mountain::StartUp()
 	Bitmap image;
 	Bitmap b;
 
-	LoadBmps(path, image, bmps);
+	LoadTiles(path, image, tiles);
 	std::cout << "color: " << color << "\n";
+
+	
 
 	std::cout << "(Mountain) Start Complete\n";
 	
@@ -43,13 +45,12 @@ void Mountain::Draw(Bmp& userBmp, Bmp& canvas, int width, int height)
 			bool isValid = ValidSpot(userBmp, canvas, i, j, locations);
 			if (isValid)
 			{
-				//make sure no other Mountain use these pixels
+				//make sure nothing else use these pixels
 				MarkUsed(userBmp, locations);
 				
 				//draw the mountain
-				DrawImage(userBmp, canvas, Location(i, j));
-				
-				//canvas[i][j] = Pixel(255, 0, 0); //Debug
+				DrawTile(userBmp, canvas, Location(i, j));
+
 			}
 
 		}
@@ -68,12 +69,19 @@ void Mountain::Draw(Bmp& userBmp, Bmp& canvas, int width, int height)
 * Draw the Mountain at the location on the canvas
 * location should be the center of the mountain bmp
 */
-void Mountain::DrawImage(Bmp& userBmp, Bmp& canvas, Location location)
+void Mountain::DrawTile(Bmp& userBmp, Bmp& canvas, Location location)
 {
 	//Get the bmp to draw
-	int index = rand() % bmps.size();
+	int index = rand() % tiles.size();
 
-	Bmp bmp = bmps[index];
+	int xOffset = (rand() % (tiles[index].offset.x * 2 + 1)) - tiles[index].offset.x;
+	int yOffset = (rand() % (tiles[index].offset.y * 2 + 1)) - tiles[index].offset.y;
+	//std::cout << "offsets: " << xOffset << ", " << yOffset << "\n";
+
+	location.i += yOffset;
+	location.j += xOffset;
+
+	Bmp bmp = tiles[index].bmp;
 
 	//Get The Bounds
 	int height = bmp.size();
@@ -107,7 +115,7 @@ void Mountain::DrawImage(Bmp& userBmp, Bmp& canvas, Location location)
 		{
 			
 			//Draw only the valid color 
-			if (bmps[index][i][j] == BLACK)
+			if (tiles[index].bmp[i][j] == BLACK)
 			{
 				
 				//Location in the canvas

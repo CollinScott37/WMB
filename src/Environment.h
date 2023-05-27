@@ -2,6 +2,7 @@
 #include "Types.h"
 #include <filesystem>
 namespace fs = std::filesystem;
+
 namespace WMB
 {
 	class Environment
@@ -9,20 +10,72 @@ namespace WMB
 	public:
 		virtual void StartUp() = 0;
 		const string ppath = "assets/";
-		void LoadBmps(string path, Bitmap& image, std::vector<Bmp>& bmps)
+
+		/*
+		* Allow the ablity to split sting s by del
+		*/
+		std::vector<string> tokenize(string s, string del = " ")
 		{
+			std::vector<string> vs;
+			int start, end = -1 * del.size();
+			do {
+				start = end + del.size();
+				end = s.find(del, start);
+				vs.push_back(s.substr(start, end - start));
+			} while (end != -1);
+
+			return vs;
+		}
+
+
+		/*
+		* Returns the offset of the tile (based on its name)
+		*/
+		Offset GetOffset(string entry)
+		{
+			//Split string at /
+			string del = "/";
+			std::vector<string> test = tokenize(entry, del);
+			
+			//Split string at .bmp
+			del = ".bmp";
+			std::vector<string> test2 = tokenize(test.back(), del);
+
+			//Split string at _
+			del = "_";
+			std::vector<string> test3 = tokenize(test2[0], del);
+
+			return Offset(stoi(test3[1]), stoi(test3[2]));
+		}
+
+		//Load every tile in the path destination
+		void LoadTiles(string path, Bitmap& image, std::vector<Tile>& tiles)
+		{
+			//Loop through all files in the path
 			for (const auto& entry : fs::directory_iterator(path))
 			{
+			
 				std::cout << entry.path() << " ";
 				image.open(entry.path().string());
+				
+				//if it is a valid file
 				if (image.isImage())
 				{
+
+					//Get Offset
+					Offset o = GetOffset(entry.path().string());
+					
+					//Get the bmp of the tile
 					Bmp bmp = image.toPixelMatrix();
+					
+					//Calc dimensions
 					int width = bmp[0].size();
 					int height = bmp.size();
+
+					tiles.push_back(Tile(bmp, o, 0));
+
 					std::cout << "- is valid - ";
-					bmps.push_back(bmp);
-					std::cout << "size: " << width << "," << height << "\n";
+					std::cout << "size: (" << width << ", " << height << ") Offset: (" << o.x << ", " << o.y << ")\n";
 				}
 				else
 				{
@@ -127,12 +180,19 @@ namespace WMB
 		* Draw the bmp at the location on the canvas
 		* location should be the center of the bmp
 		*/
-		void DrawImage(Bmp& userBmp, Bmp& canvas, Location location)
+		void DrawTile(Bmp& userBmp, Bmp& canvas, Location location)
 		{
-			//Get the bmp to draw
-			int index = rand() % bmps.size();
+			//Determine which tile to draw
+			int index = rand() % tiles.size();
 
-			Bmp bmp = bmps[index];
+			Bmp bmp = tiles[index].bmp;
+
+
+			//Calc offset of Tile
+			int xOffset = (rand() % (tiles[index].offset.x * 2 + 1)) - tiles[index].offset.x;
+			int yOffset = (rand() % (tiles[index].offset.y * 2 + 1)) - tiles[index].offset.y;
+			location.i += yOffset;
+			location.j += xOffset;
 
 			//Get The Bounds
 			int height = bmp.size();
@@ -166,7 +226,7 @@ namespace WMB
 				{
 
 					//Draw only the valid color 
-					if (bmps[index][i][j] == BLACK)
+					if (tiles[index].bmp[i][j] == BLACK)
 					{
 
 						//Location in the canvas
@@ -185,8 +245,11 @@ namespace WMB
 	protected:
 		string path;
 		Pixel color; //the pixel to look for
-		std::vector<Bmp> bmps;
+		std::vector<Tile> tiles;
 		int size; //the size of the filter (size x size)
+
+
+
 	};
 }
 

@@ -17,7 +17,7 @@ namespace WMB
 		Bitmap userBitmap;
 		Bmp userBmp;
 
-		std::vector<std::vector<Pixel>> canvas;
+		Bmp canvas;
 		Mountain m;
 		Water w;
 
