@@ -127,7 +127,7 @@ namespace WMB
 		* Draw the bmp at the location on the canvas
 		* location should be the center of the bmp
 		*/
-		void DrawImage(Bmp& canvas, Location location)
+		void DrawImage(Bmp& userBmp, Bmp& canvas, Location location)
 		{
 			//Get the bmp to draw
 			int index = rand() % bmps.size();

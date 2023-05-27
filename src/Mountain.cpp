@@ -47,7 +47,7 @@ void Mountain::Draw(Bmp& userBmp, Bmp& canvas, int width, int height)
 				MarkUsed(userBmp, locations);
 				
 				//draw the mountain
-				DrawImage(canvas, Location(i, j));
+				DrawImage(userBmp, canvas, Location(i, j));
 				
 				//canvas[i][j] = Pixel(255, 0, 0); //Debug
 			}
@@ -68,7 +68,7 @@ void Mountain::Draw(Bmp& userBmp, Bmp& canvas, int width, int height)
 * Draw the Mountain at the location on the canvas
 * location should be the center of the mountain bmp
 */
-void Mountain::DrawImage(Bmp& canvas, Location location)
+void Mountain::DrawImage(Bmp& userBmp, Bmp& canvas, Location location)
 {
 	//Get the bmp to draw
 	int index = rand() % bmps.size();

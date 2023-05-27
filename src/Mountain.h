@@ -10,7 +10,7 @@ namespace WMB
 	public:
 		void StartUp();
 		void Draw(Bmp& userBmp, Bmp& canvas, int width, int height);
-		void DrawImage(Bmp& canvas, Location location);
+		void DrawImage(Bmp& userBmp, Bmp& canvas, Location location);
 		Mountain()
 		{
 			path = ppath + "Mountains/";
