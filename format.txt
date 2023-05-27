@@ -1,0 +1,3 @@
+Convention to names files
+
+NAME_xOffset_yOffset.bmp
