@@ -3,7 +3,12 @@
 using namespace WMB;
 
 
-
+float Dista(Location src, Location dest)
+{
+	int y = pow(dest.i - src.i, 2);
+	int x = pow(dest.j - src.j, 2);
+	return sqrt(x + y);
+}
 
 void Water::StartUp()
 {
