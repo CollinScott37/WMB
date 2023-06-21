@@ -11,7 +11,7 @@ void Engine::StartUp()
 	w.StartUp();
 	
 	//Load users Image
-	userBitmap.open("test/sample3.bmp");
+	userBitmap.open("test/sample4.bmp");
 	userBmp = userBitmap.toPixelMatrix();
 
 	//set canvas values

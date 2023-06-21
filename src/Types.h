@@ -91,5 +91,8 @@ namespace WMB
 	class Environment;
 	class Mountain;
 	class Water;
+	class DeepWater;
+	class DeepWaterThing;
+
 }
 
