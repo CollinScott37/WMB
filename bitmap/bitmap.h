@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 // ----------------------------------------------------------------------------
 /**
@@ -49,6 +50,11 @@ public:
         return Pixel(-this->red, -this->green, -this->blue);
     }
 
+    friend std::ostream& operator<<(std::ostream& out, const Pixel& data)
+    {
+        out << "(" << data.red << ", " << data.green << ", " << data.blue << ")";
+        return out;
+    }
 };
 
 
