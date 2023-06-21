@@ -1,5 +1,5 @@
 #include "Water.h"
-#include <random>>
+#include <random>
 using namespace WMB;
 
 
@@ -53,6 +53,8 @@ void Water::Draw(Bmp& userBmp, Bmp& canvas, int width, int height)
 		}
 
 	}
+
+	dw.Draw(userBmp, canvas, width, height);
 	
 	std::cout << "(Water) Done Drawing\n";
 }
@@ -184,6 +186,7 @@ void Water::DrawWaterBorder(Bmp& userBmp, Bmp& canvas, int height, int width)
 				if (Check4(i, j))
 				{
 					canvas[i][j] = BLACK;
+					dw.borders.push_back(Location(i, j));
 				}
 			}
 

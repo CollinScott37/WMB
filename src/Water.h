@@ -1,5 +1,6 @@
 #pragma once
 #include "Environment.h"
+#include "Types.h"
 
 namespace WMB
 {
@@ -60,6 +61,12 @@ namespace WMB
 			color = Pixel(0,161, 255);
 			size = 8;
 		}
+
+
+
+	private:
+		DeepWater dw = DeepWater();
+
 	};
 
 }
