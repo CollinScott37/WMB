@@ -11,13 +11,14 @@ namespace WMB
 		virtual void StartUp() = 0;
 		const string ppath = "assets/";
 
+
 		/*
 		* Allow the ablity to split sting s by del
 		*/
 		std::vector<string> tokenize(string s, string del = " ")
 		{
 			std::vector<string> vs;
-			int start, end = -1 * del.size();
+			size_t start, end = -1 * del.size();
 			do {
 				start = end + del.size();
 				end = s.find(del, start);
@@ -69,8 +70,9 @@ namespace WMB
 					Bmp bmp = image.toPixelMatrix();
 					
 					//Calc dimensions
-					int width = bmp[0].size();
-					int height = bmp.size();
+					size_t width = bmp[0].size();
+					size_t height = bmp.size();
+            
 
 					tiles.push_back(Tile(bmp, o, 0));
 
@@ -195,14 +197,14 @@ namespace WMB
 			location.j += xOffset;
 
 			//Get The Bounds
-			int height = bmp.size();
-			int width = bmp[0].size();
+			size_t height = bmp.size();
+			size_t width = bmp[0].size();
 
 			//Convert from bmp space to canvas space
 			auto BmpToCanvas = [&](int i, int j, Location location)
 			{
-				int x = location.i + (i - height / 2);
-				int y = location.j + (j - width / 2);
+				size_t x = location.i + (i - height / 2);
+				size_t y = location.j + (j - width / 2);
 
 				return Location(x, y);
 			};
@@ -248,8 +250,8 @@ namespace WMB
 		std::vector<Tile> tiles;
 		int size; //the size of the filter (size x size)
 
-
-
 	};
+
+
 }
 
