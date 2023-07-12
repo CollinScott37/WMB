@@ -14,7 +14,10 @@ namespace WMB
 	typedef std::string string;
 	typedef std::vector <std::vector<Pixel>> Bmp;
 	
-	const Pixel BLACK = Pixel(0, 0, 0);
+	
+  const Pixel canvasPixel = Pixel(198, 131, 39);
+	
+  const Pixel BLACK = Pixel(0, 0, 0);
 
 	class Location
 	{

@@ -9,8 +9,8 @@ namespace WMB
 	public:
 		Engine() { StartUp(); }
 		void StartUp();
-	private:
-		const Pixel canvasPixel = Pixel(198, 131, 39);
+  
+  private:
 		int width = 500;
 		int height = 500;
 
