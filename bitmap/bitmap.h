@@ -50,10 +50,24 @@ public:
         return Pixel(-this->red, -this->green, -this->blue);
     }
 
+    //Added by Collin Scott
     friend std::ostream& operator<<(std::ostream& out, const Pixel& data)
     {
         out << "(" << data.red << ", " << data.green << ", " << data.blue << ")";
         return out;
+    }
+
+    //Added By Collin Scott
+    Pixel operator * (const double& d)
+    { 
+      return Pixel(this->red * d, this->green * d, this->blue * d);
+    }
+    
+    //Added By Collin Scott
+    Pixel operator + (const Pixel& rhs)
+    {
+      Pixel lhs = *this;
+      return Pixel(lhs.red + rhs.red, lhs.green + rhs.green, lhs.blue + rhs.blue);
     }
 };
 
