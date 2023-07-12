@@ -1,12 +1,13 @@
 #include "Water.h"
+#include "Types.h"
 #include <random>
 using namespace WMB;
 
 
-float Dista(Location src, Location dest)
+double Dista(Location src, Location dest)
 {
-	int y = pow(dest.i - src.i, 2);
-	int x = pow(dest.j - src.j, 2);
+	double y = pow(dest.i - src.i, 2);
+	double x = pow(dest.j - src.j, 2);
 	return sqrt(x + y);
 }
 
@@ -219,12 +220,41 @@ void DeepWater::Draw(Bmp& userBmp, Bmp& canvas, int width, int height)
 	std::vector<std::vector<Location>> clusters = ClusterDeepWater(locations);
 	std::cout << "Formed " << clusters.size() << " clusters\n";
 
-
-	DrawCluster(clusters, canvas);
+  //DEBUG: meant to visualize the clusters
+	//DrawCluster(clusters, canvas);
 
 	std::vector<Location> centers = GetClusterCenter(clusters);
 
-	std::vector< std::pair<Location, std::pair<int, int>>> cluster_width_height = CalcClusterSize(userBmp, width, height, clusters, centers);
+	std::vector< std::pair<Location, std::pair<int, int>>> clusterCenter_width_height = CalcClusterSize(userBmp, width, height, clusters, centers);
+ 
+  //slowly fade out waves that were drawn on the cluster
+  for(int i = 0; i < clusters.size(); i += 1)
+  {
+    int thing = 1;
+    for(const auto& loc : clusters[i])
+    {
+      
+      //find distance of wave from center
+      //the closer it is the more faded
+      int x = abs(loc.i - centers[i].i);
+      int y = abs(loc.i - centers[i].j);
+      if(x == 0 && y == 0) {continue;}
+      
+
+
+      int w = clusterCenter_width_height[i].second.first / 2; 
+      int h = clusterCenter_width_height[i].second.second / 2;
+      
+      double ax = abs(x/w - 1);
+      double ay = abs(y/h - 1);
+      double alpha = (1 - 1/(Dista(loc, centers[i])));
+      
+      std::cout << "alpha: " << alpha << "\n";
+
+      Pixel cap = canvasPixel;
+      canvas[loc.i][loc.j] = (canvas[loc.i][loc.j] * alpha) + (cap * (1 - alpha));
+    }
+  }
 	
 	std::cout << "(DeepWater) Done Drawing\n";
 
@@ -323,7 +353,7 @@ void DeepWater::DrawCluster(std::vector<std::vector<Location>> clusters, Bmp& ca
 		i += 1;
 	}
 
-	//TODO: REMOVE
+	//TODO: REMOVE REPLACE WITH A PARAMETER
 	std::vector<Location> centers = GetClusterCenter(clusters);
 
 	//Draw Centers of each clusters
@@ -404,9 +434,6 @@ std::vector<Location> DeepWater::FindAllDeepWater(Bmp userBmp, int width, int he
 
 	return locations;
 }
-
-
-
 
 //Return Clusters of DeepWaters
 std::vector<std::vector<Location>> DeepWater::ClusterDeepWater(std::vector<Location> deepWaters)
