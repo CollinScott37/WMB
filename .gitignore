@@ -3,3 +3,9 @@ build
 .vs
 Debug
 test
+CMakeFiles
+CMakeCache.txt
+WMB
+*.cmake
+*.a
+Makefile
