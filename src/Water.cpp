@@ -4,13 +4,6 @@
 using namespace WMB;
 
 
-double Dista(Location src, Location dest)
-{
-	double y = pow(dest.i - src.i, 2);
-	double x = pow(dest.j - src.j, 2);
-	return sqrt(x + y);
-}
-
 void Water::StartUp()
 {
 	std::cout << "(Water) Starting Up\n";
@@ -388,7 +381,7 @@ std::vector<Location> DeepWater::FindAllDeepWater(Bmp userBmp, int width, int he
         //find distance to land from curr position
 				for (const auto& border : borders)
 				{
-					float newDist = abs(Dista(loc, border));
+					float newDist = abs(Distance(loc, border));
 					if (newDist < dist) { dist = newDist; }
 				}
 
@@ -433,7 +426,7 @@ std::vector<std::vector<Location>> DeepWater::ClusterDeepWater(std::vector<Locat
 		{
 			for (int j = 0; j < c2.size(); j += 1)
 			{
-				if (abs(Dista(c1[i], c2[j])) <= 1.0f)
+				if (abs(Distance(c1[i], c2[j])) <= 1.0f)
 				{
 					return true;
 				}
@@ -514,10 +507,10 @@ void DeepWater::ApplyAlpha(Bmp& canvas, std::vector<std::vector<Location>> clust
 			double alpha;
 
 			//Distance from location to center
-			double distance = Dista(loc, centers[i]);
+			double distance = Distance(loc, centers[i]);
 
 			//Max distance away from center
-			double maxDistance = Dista(centers[i], Location(w,h));
+			double maxDistance = Distance(centers[i], Location(w,h));
 
 			//if more than 1 pixel away from center
 			if(distance >= 1.0f)
