@@ -10,7 +10,7 @@ namespace WMB
 		Engine() { StartUp(); }
 		void StartUp();
   
-  private:
+  	private:
 		int width = 500;
 		int height = 500;
 
