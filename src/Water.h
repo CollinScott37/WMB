@@ -30,13 +30,17 @@ namespace WMB
 		float distance; //distance from the land
 			
 		//Returns a list of Water tiles that are Deep
-    //Location of DeepWater, distnce from 
+    	//Location of DeepWater, distnce from 
 		std::vector<Location> FindAllDeepWater(Bmp userBmp, int width, int height);
 		
 		//Return Clusters of DeepWaters
 		std::vector<std::vector<Location>> ClusterDeepWater(std::vector<Location> deepWaters);
-	
-		//DEBUG: Draws the clusters onto the canvas
+
+
+		//Adds alpha to DeepWater
+        void ApplyAlpha(Bmp &canvas, std::vector<std::vector<Location>> clusters, std::vector<Location> centers, std::vector<std::pair<Location, std::pair<int, int>>> clusterCenter_width_height);
+
+        //DEBUG: Draws the clusters onto the canvas
 		void DrawCluster(std::vector<std::vector<Location>> clusters, Bmp& canvas);
 
 		//Finds the center of each cluster

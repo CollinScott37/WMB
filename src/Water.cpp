@@ -129,8 +129,6 @@ void Water::DrawTile(Bmp& userBmp, Bmp& canvas, Location location)
 	}
 }
 
-
-
 /*
 * Draws a line where water meets anything that is not water (aka land, mountain, etc)
 */
@@ -195,7 +193,7 @@ void Water::DrawWaterBorder(Bmp& userBmp, Bmp& canvas, int height, int width)
 	}
 }
 
-
+//END OF WATER, START OF DEEPWATER
 
 void DeepWater::StartUp()
 {
@@ -210,52 +208,24 @@ void DeepWater::StartUp()
 	std::cout << "(DeepWater) Start Complete\n";
 }
 
-
 void DeepWater::Draw(Bmp& userBmp, Bmp& canvas, int width, int height)
 {
 	std::cout << "(DeepWater) Started Drawing\n";
-	std::cout << "# of borders " << borders.size() << "\n";
+	//std::cout << "# of borders " << borders.size() << "\n";
 	std::vector<Location> locations = FindAllDeepWater(userBmp, width, height);
-	std::cout << "Found " << locations.size() << " Deepwaters\n";
+	//std::cout << "Found " << locations.size() << " Deepwaters\n";
 	std::vector<std::vector<Location>> clusters = ClusterDeepWater(locations);
-	std::cout << "Formed " << clusters.size() << " clusters\n";
+	//std::cout << "Formed " << clusters.size() << " clusters\n";
 
-  //DEBUG: meant to visualize the clusters
+	//DEBUG: meant to visualize the clusters
 	//DrawCluster(clusters, canvas);
-
+	
 	std::vector<Location> centers = GetClusterCenter(clusters);
 
 	std::vector< std::pair<Location, std::pair<int, int>>> clusterCenter_width_height = CalcClusterSize(userBmp, width, height, clusters, centers);
- 
-  //slowly fade out waves that were drawn on the cluster
-  for(int i = 0; i < clusters.size(); i += 1)
-  {
-    int thing = 1;
-    for(const auto& loc : clusters[i])
-    {
-      
-      //find distance of wave from center
-      //the closer it is the more faded
-      int x = abs(loc.i - centers[i].i);
-      int y = abs(loc.i - centers[i].j);
-      if(x == 0 && y == 0) {continue;}
-      
+ 	
+	DeepWater::ApplyAlpha(canvas, clusters, centers, clusterCenter_width_height);
 
-
-      int w = clusterCenter_width_height[i].second.first / 2; 
-      int h = clusterCenter_width_height[i].second.second / 2;
-      
-      double ax = abs(x/w - 1);
-      double ay = abs(y/h - 1);
-      double alpha = (1 - 1/(Dista(loc, centers[i])));
-      
-      std::cout << "alpha: " << alpha << "\n";
-
-      Pixel cap = canvasPixel;
-      canvas[loc.i][loc.j] = (canvas[loc.i][loc.j] * alpha) + (cap * (1 - alpha));
-    }
-  }
-	
 	std::cout << "(DeepWater) Done Drawing\n";
 
 }
@@ -324,16 +294,18 @@ std::vector < std::pair<Location, std::pair<int, int>>> DeepWater::CalcClusterSi
 			}
 		}
 
-  std::pair<int,int> w_h(width_count, height_count);
-  std::pair<Location, std::pair<int,int>> c_w_h(center, w_h);
+		std::pair<int,int> w_h(width_count, height_count);
+		std::pair<Location, std::pair<int,int>> c_w_h(center, w_h);
 
 		cluster_width_height.push_back(c_w_h);
 	}
 
+	/*
 	for (const auto& c_w_h : cluster_width_height)
 	{
 		std::cout << "Center: " << c_w_h.first << " width: " << c_w_h.second.first << " height: " << c_w_h.second.second << "\n";
 	}
+	*/
 
 	return cluster_width_height;
 }
@@ -343,9 +315,9 @@ void DeepWater::DrawCluster(std::vector<std::vector<Location>> clusters, Bmp& ca
 	int i = 0;
 	for (const auto& cluster : clusters)
 	{
-		std::cout << "i: " << i << "\n";
+		//std::cout << "i: " << i << "\n";
 		int amount = ((255 / clusters.size()) * i);
-		std::cout << "amount: " << amount << "\n";
+		//std::cout << "amount: " << amount << "\n";
 		for (const auto& loc : cluster)
 		{
 			canvas[loc.i][loc.j] = Pixel(255 - amount, 0, 0);
@@ -359,7 +331,7 @@ void DeepWater::DrawCluster(std::vector<std::vector<Location>> clusters, Bmp& ca
 	//Draw Centers of each clusters
 	for (const auto& loc : centers)
 	{
-		std::cout << "loc: " << loc << "\n";
+		//std::cout << "loc: " << loc << "\n";
 		canvas[loc.i][loc.j] = Pixel(0, 0, 0);
 	}
 
@@ -389,15 +361,12 @@ std::vector<Location> DeepWater::GetClusterCenter(std::vector<std::vector<Locati
 	return centers;
 }
 
-
-
 /*
 * Returns a list of Water tiles that are Deep
 * 
 * Criteria to be DeepWater:
 * Must be X pixels away from any non water blocks
 */
-
 std::vector<Location> DeepWater::FindAllDeepWater(Bmp userBmp, int width, int height)
 {
 	std::vector<Location> locations;
@@ -525,4 +494,49 @@ std::vector<std::vector<Location>> DeepWater::ClusterDeepWater(std::vector<Locat
 
 }
 
+void DeepWater::ApplyAlpha(Bmp& canvas, std::vector<std::vector<Location>> clusters, std::vector<Location> centers, std::vector< std::pair<Location, std::pair<int, int>>> clusterCenter_width_height)
+{
+	//slowly fade out waves that were drawn on the cluster
+  	for(int i = 0; i < clusters.size(); i += 1)
+  	{
+    	for(const auto& loc : clusters[i])
+    	{
+			//find distance of wave from center
+			//the closer it is the more faded
+			int x = abs(loc.i - centers[i].i);
+			int y = abs(loc.i - centers[i].j);
+			
+			//Width and Height of cluster
+			int w = clusterCenter_width_height[i].second.first / 2; 
+			int h = clusterCenter_width_height[i].second.second / 2;
+		
+			//alpha for the canvas
+			double alpha;
+
+			//Distance from location to center
+			double distance = Dista(loc, centers[i]);
+
+			//Max distance away from center
+			double maxDistance = Dista(centers[i], Location(w,h));
+
+			//if more than 1 pixel away from center
+			if(distance >= 1.0f)
+			{
+				alpha = (distance / (maxDistance / 2.0f));
+				if(alpha >= 1) {alpha = 1;}
+				else if (alpha <= 0.5f) {alpha = 0.0f;}
+			}
+			else { alpha = 0.0f;} //if close to center
+			
+			//Debug Statement
+			//std::cout << "loc: " << loc << " Distamce: " << distance << " alpha: " << alpha << "\n";
+
+			Pixel cap = canvasPixel;
+			
+			//(canvas * alpha) + (defultColor * (1-alpha))
+			canvas[loc.i][loc.j] = (canvas[loc.i][loc.j] * alpha) + (cap * (1 - alpha));
+			
+		}
+  	}
+}
 
